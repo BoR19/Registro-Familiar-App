@@ -1,7 +1,6 @@
 let miembros = [];
 let editIndex = null;
 
-// Usuario y contraseña por defecto
 const USUARIO_DEFAULT = "admin";
 const CONTRASENA_DEFAULT = "1234";
 
@@ -36,7 +35,6 @@ function showApp() {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
 
-  // Cargar datos desde localStorage
   const stored = localStorage.getItem('miembros');
   miembros = stored ? JSON.parse(stored) : [];
 
@@ -172,7 +170,7 @@ function search(query) {
     m.documento.includes(query)
   );
   const list = document.getElementById('list');
-  list.innerHTML = filtered.map((m) => `
+  list.innerHTML = filtered.map(m => `
     <div class="bg-white p-4 rounded shadow">
       <strong>${m.nombre}</strong><br>
       Documento: ${m.documento} | Teléfono: ${m.telefono} | Edad: ${m.edad} | Parentesco: ${m.parentesco}
@@ -214,7 +212,6 @@ async function exportToPDF() {
 
   preview.innerHTML = `
     <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; text-align: center;">Registro Familiar</h2>
-
     <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px;">
       <div style="flex: 1; margin: 5px; background: #e6f7ff; padding: 10px; border-radius: 5px; text-align: center;">
         <strong>Adultos</strong><br><span style="font-size: 20px;">${stats.adultos}</span>
@@ -229,8 +226,6 @@ async function exportToPDF() {
         <strong>Hombres</strong><br><span style="font-size: 20px;">${stats.hombres}</span>
       </div>
     </div>
-
-    <h3 style="margin-top: 20px; font-size: 18px; font-weight: bold;">Miembros Registrados</h3>
     <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
       <thead>
         <tr style="background-color: #f2f2f2;">
@@ -267,12 +262,9 @@ async function exportToPDF() {
   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
   doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
   document.body.removeChild(preview);
-
   doc.save("registro_familiar.pdf");
 
-  // Limpiar lista y mostrar mensaje
   miembros = [];
   localStorage.removeItem('miembros');
   renderList();
